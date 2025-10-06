@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Shmeijer — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    body{
+      background:#1c1c1c;
+      color:#f5f5f5;
+      font-family:'Poppins',sans-serif;
+      display:flex;
+      justify-content:center;
+      position:relative;
+      overflow-x:hidden;
+    }
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    .wrap {
+      width: 100%;
+      max-width: 1400px;
+      padding: 0 1rem;
+      margin: 0 auto;
+    }
+    header{
+      text-align:center;
+      padding:8rem 1rem 3rem;
+      animation:fadeUp 1s ease-out;
+      position:relative;
+    }
+    header h1 .brand{
+      font-size:3.5rem;
+      display:block;
+      background:linear-gradient(90deg,#ffffff,#dcdcdc);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    header p.lead{font-size:1.5rem;color:#cccccc;margin-top:1rem}
+    header p.subline{font-size:1rem;color:#999;margin-top:.5rem}
+    header h1::after{
+      content:"";
+      display:block;
+      width:120px;
+      height:3px;
+      margin:2rem auto 0;
+      background:linear-gradient(90deg,#dcdcdc,#ffffff);
+      border-radius:2px;
+    }
+    header::before{
+      content:"";
+      position:absolute;
+      border-radius:50%;
+      filter:blur(120px);
+      opacity:.25;
+      z-index:-1;
+      top:-200px;
+      left:20%;
+      width:500px;
+      height:500px;
+      background:#888;
+    }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+    .filter-bar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:0.5rem;
+      justify-content:center;
+      margin:2rem 0;
+      animation:fadeUp 1s ease-out;
+      position:sticky;
+      top:0;
+      background:#1c1c1c;
+      padding:1rem 0;
+      z-index:10;
+    }
+    .filter-btn{
+      background:#2a2a2a;
+      border:none;
+      color:#f5f5f5;
+      padding:.4rem .8rem;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:.85rem;
+      transition:background .2s;
+    }
+    .filter-btn.active,
+    .filter-btn:hover{background:#f5f5f5;color:#1c1c1c}
+    .search-input{
+      padding:.5rem 1rem;
+      border-radius:999px;
+      border:none;
+      background:#2a2a2a;
+      color:#f5f5f5;
+      flex:1;
+      min-width:200px;
+    }
+
+    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+    .item{
+      background:#2a2a2a;
+      border-radius:1rem;
+      overflow:hidden;
+      box-shadow:0 8px 28px rgba(0,0,0,.6);
+      transition:transform .25s, box-shadow .25s;
+    }
+    .item:hover{transform:translateY(-5px);box-shadow:0 12px 40px rgba(0,0,0,.8)}
+    .meta{padding:1rem}
+    .title{font-weight:700;margin-bottom:.25rem}
+    .subtitle{font-size:.9rem;color:#aaaaaa}
+
+    .container{position:relative;overflow:hidden;border-radius:1rem 1rem 0 0;--position:50%;aspect-ratio:16/10}
+    .image-container{position:relative;width:100%;height:100%}
+    .slider-image{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}
+    .image-after{z-index:1}
+    .image-before{z-index:2;clip-path:inset(0 calc(100% - var(--position)) 0 0)}
+
+    .slider{position:absolute;inset:0;cursor:ew-resize;opacity:0;z-index:5}
+    .slider-line{position:absolute;top:0;bottom:0;left:var(--position);transform:translateX(-50%);width:3px;background:#f5f5f5;z-index:6}
+    .slider-button{
+      position:absolute;
+      top:50%;
+      left:var(--position);
+      transform:translate(-50%,-50%);
+      background:#f5f5f5;
+      color:#1c1c1c;
+      padding:.5rem;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      pointer-events:none;
+      box-shadow:0 4px 12px rgba(0,0,0,.4);
+      z-index:7;
+    }
+
+    .container, .image-container, .slider-image {
+      max-width: 100%;
+    }
+
+    footer{text-align:center;margin:3rem 0;color:#aaaaaa;font-size:.85rem}
+    @media(max-width:900px){.gallery{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:600px){.gallery{grid-template-columns:1fr}}
+    /* Override body flex on small screens */
+    @media(max-width: 768px) {
+    @media(max-width: 768px) {
+      body {
+        display: block;
+        overflow-x: hidden; /* Disable horizontal scroll only on mobile */
+      }
+
+      html {
+        overflow-x: hidden;
+      }
+
+      /* Keep search bar, hide only filter buttons */
+      .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+        padding: 0.5rem 1rem;
+      }
+
+      .search-input {
+        width: 100%;
+      }
+
+      .filter-btn {
+        display: none;
+      }
+
+      header {
+        padding: 4rem 1rem 2rem;
+      }
+
+      header h1 .brand {
+        font-size: 2.2rem;
+      }
+
+      header p.lead {
+        font-size: 1.1rem;
+      }
+
+      header p.subline {
+        font-size: 0.9rem;
+      }
+
+      .gallery {
+        gap: 1rem;
+      }
+
+      .item .meta {
+        text-align: center;
+      }
+
+      /* Keep header blur centered so it doesn't cause side scroll */
+      header::before {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 300px;
+        height: 300px;
+      }
+    }
+
+    }
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1><span class="brand">Shmeijer</span></h1>
+      <p class="lead">Photoshop • Cosplay • Retouching</p>
+      <p class="subline">Advanced Retouching, Composites & Effects</p>
+    </header>
+
+    <div class="filter-bar">
+      <input type="text" placeholder="Search projects..." class="search-input" id="searchInput">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="composite">Composites</button>
+      <button class="filter-btn" data-filter="lighting">Lighting</button>
+      <button class="filter-btn" data-filter="shading">Shading</button>
+      <button class="filter-btn" data-filter="cosplay">Cosplay</button>
+      <button class="filter-btn" data-filter="retouching">Retouching</button>
+      <button class="filter-btn" data-filter="color-grading">Color Grading</button>
+      <button class="filter-btn" data-filter="toning">Toning</button>
+      <button class="filter-btn" data-filter="cinematic-color">Cinematic Color</button>
+      <button class="filter-btn" data-filter="fantasy-effects">Fantasy Effects</button>
+      <button class="filter-btn" data-filter="vfx-elements">VFX Elements</button>
+      <button class="filter-btn" data-filter="hair-cleanup">Hair Cleanup</button>
+      <button class="filter-btn" data-filter="background-replacement">Background Replacement</button>
+      <button class="filter-btn" data-filter="object-removal">Object Removal</button>
+    </div>
+
+    <main>
+      <section class="gallery" id="gallery"></section>
+    </main>
+
+    <footer>© <span id="year"></span> Shmeijer — Portfolio</footer>
+  </div>
+
+  <script>
+    const projects=[
+      {id:1,title:'Happy Halloween',subtitle:'Composite & Lighting/Shading',before:'Pumpkin_Before1.png',after:'Pumpkin_After1.png',tags:['composite','lighting','shading','color-grading','toning']},
+      {id:2,title:'Snowy Day',subtitle:'Composite, Lighting & Tone Grading',before:'snow_before1.png',after:'snow_after1.png',tags:['composite','lighting','retouching','color-grading','toning','background-cleanup']},
+      {id:3,title:'Nanami Cosplay',subtitle:'Jujutsu kaisen',after:'Nanami.jpg',tags:['cosplay']},
+      {id:4,title:'Dexter Cosplay',subtitle:'Dexter',after:'dexter.png',tags:['cosplay', 'composite','lighting','retouching']},
+      {id:5,title:'Sukuna Cosplay',subtitle:'Jujutsu kaisen',after:'Sukuna.jpg',tags:['cosplay', 'composite','lighting','retouching']}
+    ];
+
+    const gallery=document.getElementById('gallery');
+    const filterButtons=document.querySelectorAll('.filter-btn');
+    const searchInput=document.getElementById('searchInput');
+    document.getElementById('year').textContent=new Date().getFullYear();
+
+    function createSlider(beforeSrc,afterSrc){
+      const container=document.createElement('div');
+      container.className='container';
+      const imgWrap=document.createElement('div');imgWrap.className='image-container';
+      const imgBefore=document.createElement('img');imgBefore.className='image-before slider-image';imgBefore.src=beforeSrc;imgBefore.alt='Before';
+      const imgAfter=document.createElement('img');imgAfter.className='image-after slider-image';imgAfter.src=afterSrc;imgAfter.alt='After';
+      imgWrap.appendChild(imgAfter);imgWrap.appendChild(imgBefore);
+      container.appendChild(imgWrap);
+      const slider=document.createElement('input');slider.type='range';slider.min=0;slider.max=100;slider.value=50;slider.className='slider';
+      container.appendChild(slider);
+      const line=document.createElement('div');line.className='slider-line';container.appendChild(line);
+      const button=document.createElement('div');button.className='slider-button';button.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><line x1="128" y1="40" x2="128" y2="216" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line><polyline points="48 160 16 128 48 96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline><polyline points="208 96 240 128 208 160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline></svg>';
+      container.appendChild(button);
+      slider.addEventListener('input',e=>container.style.setProperty('--position',e.target.value+'%'));
+      return container;
+    }
+
+    function renderGallery(filter='all',searchTerm=''){
+      gallery.innerHTML='';
+      const filtered = projects.filter(p=>{
+        const matchesFilter = filter==='all' || p.tags.includes(filter);
+        const matchesSearch = p.title.toLowerCase().includes(searchTerm) || p.subtitle.toLowerCase().includes(searchTerm);
+        return matchesFilter && matchesSearch;
+      });
+
+      filtered.forEach(p=>{
+        const it=document.createElement('article');
+        it.className='item';
+
+        if (p.tags.includes('cosplay') && !p.before) {
+          // Wrap cosplay image in container for consistent styling
+          const container=document.createElement('div');
+          container.className='container';
+
+          const imgWrap=document.createElement('div');
+          imgWrap.className='image-container';
+
+          const img=document.createElement('img');
+          img.src=p.after;
+          img.alt=p.title;
+          img.className='slider-image image-after';
+
+          imgWrap.appendChild(img);
+          container.appendChild(imgWrap);
+          it.appendChild(container);
+
+        } else {
+          const slider=createSlider(p.before,p.after);
+          it.appendChild(slider);
+        }
+
+        const meta=document.createElement('div');
+        meta.className='meta';
+        meta.innerHTML=`<h3 class="title">${p.title}</h3><div class="subtitle">${p.subtitle}</div>`;
+        it.appendChild(meta);
+
+        gallery.appendChild(it);
+      });
+
+    }
+
+    filterButtons.forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        filterButtons.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        renderGallery(btn.dataset.filter, searchInput.value.toLowerCase());
+      });
+    });
+
+    searchInput.addEventListener('input',()=>{
+      const activeFilter=document.querySelector('.filter-btn.active').dataset.filter;
+      renderGallery(activeFilter, searchInput.value.toLowerCase());
+    });
+
+    renderGallery();
+  </script>
+</body>
+</html>
