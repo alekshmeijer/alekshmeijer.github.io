@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en" data-light="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Shmeijer | Retouching &amp; Composites</title>
+  <meta name="description" content="Photo retouching, composites and effects work by Alek Schmierer — every project shown as a before/after slider.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      color-scheme:dark;
+      --surface-0:oklch(0.14 0.02 274);
+      --surface-1:oklch(0.19 0.02 274);
+      --surface-2:oklch(0.24 0.02 274);
+      --border:oklch(0.32 0.02 274);
+      --border-strong:oklch(0.40 0.02 274);
+      --text:oklch(0.93 0.01 274);
+      --text-muted:oklch(0.72 0.01 274);
+      --text-faint:oklch(0.65 0.01 274);
+      --accent:oklch(0.80 0.15 70);
+      --accent-hover:color-mix(in oklab,var(--accent) 82%,white);
+      --focus-ring:var(--accent);
+    }
+
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    body{
+      background-color:var(--surface-0);
+      color:var(--text);
+      font-family:'Inter',system-ui,-apple-system,sans-serif;
+      font-size:15px;
+      line-height:1.65;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      overflow-x:hidden;
+      padding:0 1.75rem;
+    }
+
+    h1,h2,h3,nav a,.brand-name,.ui-label{font-family:'Silkscreen',monospace;letter-spacing:-0.02em}
+    .stack-tag,.meta-text,.row-links{font-family:'JetBrains Mono',monospace}
+
+    a{color:var(--accent);text-decoration:none;transition:color 0.15s ease}
+    a:hover{color:var(--accent-hover);text-decoration:underline}
+    a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+
+    .site-container{
+      width:100%;
+      max-width:1240px;
+      margin:0 auto;
+      display:flex;
+      flex-direction:column;
+      min-height:100vh;
+    }
+
+    /* ---- header ---- */
+    header.site-header{
+      padding:2rem 0 1.5rem;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1.5rem;
+      flex-wrap:wrap;
+    }
+    .brand-name{font-size:1.3rem;color:var(--text);font-weight:700}
+    .brand-name:hover{color:var(--accent);text-decoration:none}
+    nav.site-nav{display:flex;align-items:center;flex-wrap:wrap;gap:0.5rem 1.4rem}
+    nav.site-nav a{font-size:16px;letter-spacing:0;color:var(--text-muted);transition:color 0.15s ease}
+    nav.site-nav a:hover,nav.site-nav a.active{color:var(--text);text-decoration:none}
+
+    /* ---- layout ---- */
+    main.main-column{
+      display:flex;
+      flex-direction:column;
+      gap:2.25rem;
+      padding:2.75rem 0;
+      flex:1;
+    }
+
+    .hero h1{font-size:1.9rem;color:var(--text);line-height:1.35}
+    .hero p{color:var(--text-muted);font-size:1.08rem;line-height:1.6;margin-top:0.75rem}
+
+    .section-title{
+      font-size:0.95rem;
+      color:var(--text-muted);
+      text-transform:uppercase;
+      margin-bottom:1rem;
+    }
+
+    /* ---- filter bar ---- */
+    .filter-bar{
+      position:sticky;
+      top:0;
+      z-index:10;
+      background:var(--surface-0);
+      border-bottom:1px solid var(--border);
+      padding:1rem 0;
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:0.5rem;
+    }
+    .search-input{
+      font-family:'JetBrains Mono',monospace;
+      font-size:13px;
+      background:var(--surface-1);
+      border:1px solid var(--border);
+      color:var(--text);
+      padding:0.45rem 0.85rem;
+      border-radius:4px;
+      flex:1;
+      min-width:220px;
+      transition:border-color 0.15s ease;
+    }
+    .search-input::placeholder{color:var(--text-faint)}
+    .search-input:hover{border-color:var(--border-strong)}
+
+    .filter-btn{
+      background:var(--surface-1);
+      border:1px solid var(--border);
+      color:var(--text-muted);
+      padding:0.45rem 0.85rem;
+      font-family:'Silkscreen',monospace;
+      font-size:13px;
+      border-radius:4px;
+      cursor:pointer;
+      transition:background 0.15s ease,border-color 0.15s ease,color 0.15s ease;
+    }
+    .filter-btn:hover{background:var(--surface-2);border-color:var(--border-strong);color:var(--text)}
+    .filter-btn.active{color:var(--accent);border-color:var(--accent)}
+
+    /* ---- gallery ---- */
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:1.75rem;
+    }
+    .item{
+      background:var(--surface-1);
+      border:1px solid var(--border);
+      border-radius:4px;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      transition:border-color 0.15s ease;
+    }
+    .item:hover{border-color:var(--border-strong)}
+
+    .meta{
+      padding:1.4rem 1.75rem;
+      display:flex;
+      flex-direction:column;
+      gap:0.65rem;
+      border-top:1px solid var(--border);
+    }
+    .row-top-line{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:1rem;
+      flex-wrap:wrap;
+    }
+    .title{font-family:'Silkscreen',monospace;letter-spacing:-0.02em;font-size:1.08rem;color:var(--text);font-weight:700}
+    .row-links{font-size:0.84rem;color:var(--text-faint);white-space:nowrap}
+    .subtitle{font-size:0.96rem;color:var(--text-muted);line-height:1.55}
+    .project-stack{display:flex;gap:0.4rem;flex-wrap:wrap}
+    .stack-tag{
+      font-size:0.72rem;
+      color:var(--text-faint);
+      background:var(--surface-0);
+      padding:0.18rem 0.45rem;
+      border-radius:3px;
+      border:1px solid var(--border);
+    }
+
+    .empty-state{
+      font-family:'JetBrains Mono',monospace;
+      font-size:0.9rem;
+      color:var(--text-faint);
+      border:1px dashed var(--border);
+      border-radius:4px;
+      padding:2.5rem 1.75rem;
+      text-align:center;
+      grid-column:1 / -1;
+    }
+
+    /* ---- before/after slider ---- */
+    .container{
+      position:relative;
+      overflow:hidden;
+      --position:50%;
+      aspect-ratio:16/10;
+      background:var(--surface-0);
+      max-width:100%;
+    }
+    .image-container{position:relative;width:100%;height:100%;max-width:100%}
+    .slider-image{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;max-width:100%}
+    .image-after{z-index:1}
+    .image-before{z-index:2;clip-path:inset(0 calc(100% - var(--position)) 0 0)}
+
+    .slider{position:absolute;inset:0;cursor:ew-resize;opacity:0;z-index:5;width:100%;margin:0}
+    .slider-line{
+      position:absolute;top:0;bottom:0;left:var(--position);
+      transform:translateX(-50%);
+      width:2px;background:var(--accent);z-index:6;
+    }
+    .slider-button{
+      position:absolute;top:50%;left:var(--position);
+      transform:translate(-50%,-50%);
+      background:var(--surface-1);
+      color:var(--accent);
+      border:1px solid var(--accent);
+      border-radius:3px;
+      padding:0.35rem 0.5rem;
+      display:grid;
+      place-items:center;
+      pointer-events:none;
+      z-index:7;
+    }
+    .edge-label{
+      position:absolute;
+      top:0.6rem;
+      z-index:6;
+      font-family:'JetBrains Mono',monospace;
+      font-size:0.68rem;
+      letter-spacing:0.04em;
+      color:var(--text-muted);
+      background:color-mix(in oklab,var(--surface-0) 78%,transparent);
+      border:1px solid var(--border);
+      border-radius:3px;
+      padding:0.1rem 0.4rem;
+      pointer-events:none;
+    }
+    .edge-label.before{left:0.6rem}
+    .edge-label.after{right:0.6rem}
+
+    /* ---- footer ---- */
+    footer.site-footer{
+      margin-top:auto;
+      padding:2rem 0;
+      border-top:1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      flex-wrap:wrap;
+      font-family:'JetBrains Mono',monospace;
+      font-size:0.8rem;
+      color:var(--text-faint);
+    }
+
+    @media (max-width:900px){
+      .gallery{grid-template-columns:1fr}
+    }
+    @media (max-width:640px){
+      body{padding:0 1rem}
+      nav.site-nav{gap:0.5rem 1rem}
+      header.site-header{padding:1.5rem 0 1.25rem}
+      main.main-column{padding:2rem 0}
+      .hero h1{font-size:1.5rem}
+      .hero p{font-size:1rem}
+      .meta{padding:1.1rem 1.25rem}
+      .filter-btn{display:none}
+      .filter-bar{padding:0.75rem 0}
+      .search-input{width:100%}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *{transition:none !important;animation:none !important}
+    }
+  </style>
+</head>
+<body>
+  <div class="site-container">
+    <header class="site-header">
+      <div class="header-brand-group">
+        <a href="/" class="brand-name">Shmeijer</a>
+      </div>
+      <nav class="site-nav" aria-label="Main Navigation">
+        <a href="/" class="active" aria-current="page">/work</a>
+      </nav>
+    </header>
+
+    <main class="main-column" id="main-content">
+      <section class="hero">
+        <h1>Photo Retouching &amp; Composites</h1>
+        <p>Retouching, composite work, lighting and color grading. Drag the slider to see changes.</p>
+      </section>
+
+      <section class="projects-section">
+        <h2 class="section-title">Selected Work</h2>
+
+        <div class="filter-bar">
+          <input type="text" placeholder="search projects..." class="search-input" id="searchInput" aria-label="Search projects">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="composite">Composites</button>
+          <button class="filter-btn" data-filter="lighting">Lighting</button>
+          <button class="filter-btn" data-filter="shading">Shading</button>
+          <button class="filter-btn" data-filter="cosplay">Cosplay</button>
+          <button class="filter-btn" data-filter="retouching">Retouching</button>
+          <button class="filter-btn" data-filter="color-grading">Color Grading</button>
+          <button class="filter-btn" data-filter="toning">Toning</button>
+          <button class="filter-btn" data-filter="cinematic-color">Cinematic Color</button>
+          <button class="filter-btn" data-filter="fantasy-effects">Fantasy Effects</button>
+          <button class="filter-btn" data-filter="vfx-elements">VFX Elements</button>
+          <button class="filter-btn" data-filter="hair-cleanup">Hair Cleanup</button>
+          <button class="filter-btn" data-filter="background-replacement">Background Replacement</button>
+          <button class="filter-btn" data-filter="object-removal">Object Removal</button>
+        </div>
+
+        <div class="gallery" id="gallery"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>&copy; <span id="year"></span> Alek Schmierer</span>
+      <span class="meta-text">Photoshop &middot; Composites &middot; Retouching</span>
+    </footer>
+  </div>
+
+  <script>
+    const projects=[
+      {id:1,title:'Snowy Day',subtitle:'Composite, Lighting & Tone Grading',before:'snow_before1.png',after:'snow_after1.png',tags:['composite','lighting','retouching','color-grading','toning','background-cleanup']},
+      {id:2,title:'Happy Halloween',subtitle:'Composite & Lighting/Shading',before:'Pumpkin_Before1.png',after:'Pumpkin_After1.png',tags:['composite','lighting','shading','color-grading','toning']}
+    ];
+
+    const gallery=document.getElementById('gallery');
+    const filterButtons=document.querySelectorAll('.filter-btn');
+    const searchInput=document.getElementById('searchInput');
+    document.getElementById('year').textContent=new Date().getFullYear();
+
+    function createSlider(beforeSrc,afterSrc){
+      const container=document.createElement('div');
+      container.className='container';
+      const imgWrap=document.createElement('div');imgWrap.className='image-container';
+      const imgBefore=document.createElement('img');imgBefore.className='image-before slider-image';imgBefore.src=beforeSrc;imgBefore.alt='Before';imgBefore.loading='lazy';
+      const imgAfter=document.createElement('img');imgAfter.className='image-after slider-image';imgAfter.src=afterSrc;imgAfter.alt='After';imgAfter.loading='lazy';
+      imgWrap.appendChild(imgAfter);imgWrap.appendChild(imgBefore);
+      container.appendChild(imgWrap);
+
+      const labelBefore=document.createElement('span');labelBefore.className='edge-label before';labelBefore.textContent='BEFORE';
+      const labelAfter=document.createElement('span');labelAfter.className='edge-label after';labelAfter.textContent='AFTER';
+      container.appendChild(labelBefore);container.appendChild(labelAfter);
+
+      const slider=document.createElement('input');slider.type='range';slider.min=0;slider.max=100;slider.value=50;slider.className='slider';
+      slider.setAttribute('aria-label','Reveal before or after');
+      container.appendChild(slider);
+      const line=document.createElement('div');line.className='slider-line';container.appendChild(line);
+      const button=document.createElement('div');button.className='slider-button';button.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true"><line x1="128" y1="40" x2="128" y2="216" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line><polyline points="48 160 16 128 48 96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline><polyline points="208 96 240 128 208 160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline></svg>';
+      container.appendChild(button);
+      slider.addEventListener('input',e=>container.style.setProperty('--position',e.target.value+'%'));
+      return container;
+    }
+
+    function renderGallery(filter='all',searchTerm=''){
+      gallery.innerHTML='';
+      const filtered = projects.filter(p=>{
+        const matchesFilter = filter==='all' || p.tags.includes(filter);
+        const matchesSearch = p.title.toLowerCase().includes(searchTerm) || p.subtitle.toLowerCase().includes(searchTerm);
+        return matchesFilter && matchesSearch;
+      });
+
+      if(!filtered.length){
+        const empty=document.createElement('p');
+        empty.className='empty-state';
+        empty.textContent='No projects match that filter.';
+        gallery.appendChild(empty);
+        return;
+      }
+
+      filtered.forEach(p=>{
+        const it=document.createElement('article');
+        it.className='item';
+
+        if (p.tags.includes('cosplay') && !p.before) {
+          const container=document.createElement('div');
+          container.className='container';
+
+          const imgWrap=document.createElement('div');
+          imgWrap.className='image-container';
+
+          const img=document.createElement('img');
+          img.src=p.after;
+          img.alt=p.title;
+          img.loading='lazy';
+          img.className='slider-image image-after';
+
+          imgWrap.appendChild(img);
+          container.appendChild(imgWrap);
+          it.appendChild(container);
+
+        } else {
+          const slider=createSlider(p.before,p.after);
+          it.appendChild(slider);
+        }
+
+        const meta=document.createElement('div');
+        meta.className='meta';
+
+        const topLine=document.createElement('div');
+        topLine.className='row-top-line';
+        const title=document.createElement('h3');
+        title.className='title';
+        title.textContent=p.title;
+        topLine.appendChild(title);
+        if(p.before){
+          const links=document.createElement('div');
+          links.className='row-links';
+          links.textContent='drag to compare';
+          topLine.appendChild(links);
+        }
+        meta.appendChild(topLine);
+
+        const subtitle=document.createElement('p');
+        subtitle.className='subtitle';
+        subtitle.textContent=p.subtitle;
+        meta.appendChild(subtitle);
+
+        const stack=document.createElement('div');
+        stack.className='project-stack';
+        p.tags.forEach(t=>{
+          const tag=document.createElement('span');
+          tag.className='stack-tag';
+          tag.textContent=t.replace(/-/g,' ');
+          stack.appendChild(tag);
+        });
+        meta.appendChild(stack);
+
+        it.appendChild(meta);
+        gallery.appendChild(it);
+      });
+    }
+
+    filterButtons.forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        filterButtons.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        renderGallery(btn.dataset.filter, searchInput.value.toLowerCase());
+      });
+    });
+
+    searchInput.addEventListener('input',()=>{
+      const activeFilter=document.querySelector('.filter-btn.active').dataset.filter;
+      renderGallery(activeFilter, searchInput.value.toLowerCase());
+    });
+
+    renderGallery();
+  </script>
+</body>
+</html>
